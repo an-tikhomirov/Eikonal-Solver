@@ -17,15 +17,16 @@ endif()
 message(STATUS "INMOST include: ${INMOST_INCLUDE_DIR}")
 message(STATUS "INMOST library: ${INMOST_LIBRARY}")
 
-# Используем target_include_directories вместо include_directories
+
 include_directories(include)
 
 add_executable(eikonal-solver 
     src/main.cpp
     src/Mesh.cpp
+    src/local_solver_isotropic.cpp
+    src/global_solver_isotropic.cpp
 )
 
-# Явно указываем include директории для target
 target_include_directories(eikonal-solver PRIVATE 
     ${INMOST_INCLUDE_DIR} /home/andrey/Projects/INM_RAS/inmost-root/INMOST-build
     ${CMAKE_CURRENT_SOURCE_DIR}/include

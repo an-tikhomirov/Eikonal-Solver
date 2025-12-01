@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Mesh.hpp"
+#include "global_solver_isotropic.hpp"
 
 int main(int argc, char* argv[]) {
     if (argc < 3) {
@@ -16,11 +17,13 @@ int main(int argc, char* argv[]) {
             return 1;
         }
         
-
-        mesh.InitializeEikonalData({0.5, 0.5, 0.5}, 0.1);
+        mesh.InitializeEikonalData({0.1, 0.1, 0.1}, 0.1);
         mesh.SetIsotropicSpeed(1.0);
         
         std::cout << "Mesh initialized successfully!" << std::endl;
+        
+        // ===== ВЫЗОВ ГЛОБАЛЬНОГО СОЛВЕРА =====
+        global_solver_isotropic(mesh.GetMesh(), mesh.GetPhiTag(), mesh.GetActiveTag(), 1000);
         
         if (!mesh.Save(argv[2])) {
             std::cerr << "Failed to save result: " << argv[2] << std::endl;

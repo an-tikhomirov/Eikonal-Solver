@@ -2,13 +2,19 @@
 #include <iostream>
 #include <cmath>
 
+
+const double INF_PHI = 1.0e12;
+
+
 Mesh::Mesh() {
     mesh = new INMOST::Mesh();
 }
 
+
 Mesh::~Mesh() {
     delete mesh;
 }
+
 
 bool Mesh::Load(const std::string& filename) {
     mesh->SetFileOption("VERBOSITY", "2");
@@ -23,6 +29,7 @@ bool Mesh::Load(const std::string& filename) {
     }
 }
 
+
 bool Mesh::Save(const std::string& filename) {
     try {
         mesh->Save(filename);
@@ -34,16 +41,16 @@ bool Mesh::Save(const std::string& filename) {
     }
 }
 
+
 void Mesh::InitializeEikonalData(const std::array<double, 3>& source_point, double source_radius) {
     phi_tag = mesh->CreateTag("Phi", INMOST::DATA_REAL, INMOST::NODE, INMOST::NONE, 1);
     active_tag = mesh->CreateTag("Active", INMOST::DATA_INTEGER, INMOST::NODE, INMOST::NONE, 1);
 
     for (INMOST::Mesh::iteratorNode inode = mesh->BeginNode(); inode != mesh->EndNode(); ++inode) {
-        double coords[3];
-        inode->Barycenter(coords);
+        auto coords = inode->Coords();
         
         double dist_sq = 0.0;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; ++i) {
             double diff = coords[i] - source_point[i];
             dist_sq += diff * diff;
         }
@@ -52,7 +59,7 @@ void Mesh::InitializeEikonalData(const std::array<double, 3>& source_point, doub
             inode->Real(phi_tag) = 0.0;
             inode->Integer(active_tag) = 1;
         } else {
-            inode->Real(phi_tag) = 1.0e12;
+            inode->Real(phi_tag) = INF_PHI;
             inode->Integer(active_tag) = 0;
         }
     }
@@ -61,6 +68,7 @@ void Mesh::InitializeEikonalData(const std::array<double, 3>& source_point, doub
               << source_point[0] << ", " << source_point[1] << ", " << source_point[2] 
               << "), radius = " << source_radius << std::endl;
 }
+
 
 void Mesh::SetIsotropicSpeed(double speed) {
     speed_tag = mesh->CreateTag("Speed", INMOST::DATA_REAL, INMOST::CELL, INMOST::NONE, 1);

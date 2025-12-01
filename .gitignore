@@ -1,0 +1,7 @@
+# .gitignore
+build/
+.vscode/
+*.vtu
+*.vtk
+*.csv
+*.txt

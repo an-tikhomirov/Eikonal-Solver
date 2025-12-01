@@ -1,4 +1,3 @@
-// include/Mesh.hpp
 #pragma once
 #include <inmost.h>
 #include <string>
@@ -12,10 +11,8 @@ public:
     bool Load(const std::string& filename);
     bool Save(const std::string& filename);
     
-
     void InitializeEikonalData(const std::array<double, 3>& source_point, double source_radius = 0.1);
     
-
     void SetIsotropicSpeed(double speed);
 
     INMOST::Mesh* GetMesh() { return mesh; }
