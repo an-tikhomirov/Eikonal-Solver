@@ -1,7 +1,19 @@
 # .gitignore
+# build
 build/
-.vscode/
+
+# mesh / results (VTU)
 *.vtu
-*.vtk
-*.csv
-*.txt
+
+# large data
+*.dat
+*.vscode/
+# временные файлы
+*.log
+*.tmp
+
+# cmake мусор
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile

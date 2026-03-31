@@ -23,8 +23,12 @@ include_directories(include)
 add_executable(eikonal-solver 
     src/main.cpp
     src/Mesh.cpp
+
     src/local_solver_isotropic.cpp
     src/global_solver_isotropic.cpp
+
+    src/local_solver_anisotropic.cpp
+    src/global_solver_anisotropic.cpp
 )
 
 target_include_directories(eikonal-solver PRIVATE 
